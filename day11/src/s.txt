@@ -1,0 +1,55 @@
+1.前台向后台传递信息
+*使用？
+    <a href= "${pageContext.request.contextPath}/deleteUserServlet?id=${user.id}" name="delete" class="btn btn-default">删除</a>
+    通过请求参数id可以获取user.id
+    后台可以通过
+     String id = req.getParameter("id"); //获取删除的id
+
+*为了能使得删除功能获得比较大的用户体验（加入提示框）
+    改造：
+    <a href= "javascript : deleteUser(${user.id})" name="delete" class="btn btn-default">删除</a>
+    <script>
+    function deleteUser(id){
+        if(confirm("您是否删除？"))｛
+            location.href = "${pageContext.request.contextPath}/deleteUserServlet?id="+id;
+        ｝
+    }
+    </script>
+    引入javascript
+
+* <%--设置隐藏域，存储id 必须写到form表的内部才能发送给后台--%>
+  <input type="hidden" name="id" value="${requestScope.one.id}">
+
+2.值得细细品味的代码
+    <script>
+        //删除选择联系人，页面加载后执行
+        window.onload=function (ev) {
+            document.getElementById("deleteSelected").onclick=function (ev2) {
+                if(confirm("您确定要删除吗？")){
+                    //标识是否被选中
+                    var flag = flag;
+                    var names = document.getElementsByName('uid');
+                    //遍历查询是否有框被选中
+                    for (var i = 0;i < names.length;i++){
+                        //如果有被选中
+                        if(names[i].checked){
+                            flag = true;
+                            break;  //跳出循环，准备批量删除
+                        }
+                    }
+                    //有条目被选中了
+                    if(flag == true){
+                        document.getElementById("form").submit();
+                    }
+                }
+            }
+            //点击第一次checkbox全选
+            document.getElementById("checkFirst").onclick=function(ev) {
+                var names = document.getElementsByName('uid');
+                //遍历并且全选
+                for (var i = 0;i < names.length;i++){
+                    names[i].checked = this.checked;
+                }
+            }
+        }
+    </script>
