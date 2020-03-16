@@ -1,3 +1,0 @@
-1.AddUserServlet 的 req.getSession().setAttribute("add","添加数据成功");为什么使用request不能共享数据
-sessionScope.add 在list.jsp取数据
-域共享范围：pageScope < requestScope < sessionScope < applicationScope
